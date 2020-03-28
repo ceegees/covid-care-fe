@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme) =>
     }),
 );
 
-
-
 export default function Landing(props) {
     const classes = useStyles();
     const [modalCls, setModalCls] = useState();
@@ -50,7 +48,9 @@ export default function Landing(props) {
 
     return <Container className={classes.container} fixed padding={2}>
         <Grid container justify="center" className="w3-padding" spacing={2}>
-            <Grid item xs={12} sm={4}  >
+            <TravelPass />
+        </Grid>
+            {/* <Grid item xs={12} sm={4}  >
                 <Button className="w3-padding-64 w3-block w3-deep-orange w3-round"
                     onClick={handleOpen}
                     style={{ height: "100%" }}>Travel Pass</Button>
@@ -61,13 +61,13 @@ export default function Landing(props) {
             <Grid item item xs={12} sm={4}>
                 <Button className="w3-padding-64 w3-black w3-block" onClick={() => alert('coming soon!')} style={{ height: "100%" }}>Medical Stores Near You!</Button>
             </Grid>
-        </Grid>
-        {modalCls == 'w3-show' && <div className={clsx("w3-modal", modalCls)}  >
+        </Grid> */}
+        {/* {modalCls == 'w3-show' && <div className={clsx("w3-modal", modalCls)}  >
             <div className="w3-modal-content">
                 <span onClick={() => setModalCls('w3-hide')}
                     class="w3-button w3-display-topright">&times;</span>
                 <TravelPass />
             </div>
-        </div>}
+        </div>} */}
     </Container>
 }
