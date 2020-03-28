@@ -1,13 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
 import {
-    FormControl,
-    Button,
-    TextField,
-    Paper,
     Grid,
-    Select,
-    InputLabel,
     MenuItem,
     Typography,
     Container
@@ -16,13 +9,16 @@ import { get } from 'lodash';
 import SelectField from '../common/SelectField';
 import produce from "immer"
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import CommonTable from '../common/Table';
 import Loader from '../common/Loader';
 import Pagination from '../common/Pagination';
+import Dialog from '../common/Modal';
+import EditHospital from './EditHospital';
 
 export default function Hospital() {
     const [disableDistrict, setDisableDistrict] = useState(true);
+    const [showEdit, setShowEdit] = useState(false);
     const [filterData, setFilterData] = useState({
         state: '',
         district: '',
@@ -49,6 +45,9 @@ export default function Hospital() {
         setFilterData(filterData.pagination);
     }
 
+    const closeSubsidyCreate = () => {
+        setShowEdit(false);
+    }
 
     let statesData = [];
     statesData = [
@@ -117,7 +116,7 @@ export default function Hospital() {
             title: 'District'
         },
         {
-            title: 'Taluk Name'
+            title: 'Taluk'
         },
         {
             title: 'Normal Beds'
@@ -140,6 +139,9 @@ export default function Hospital() {
         {
             title: 'Surgeons'
         },
+        {
+            title: ''
+        }
     ];
 
     let tableData = <Loader />;
@@ -161,10 +163,10 @@ export default function Hospital() {
         '150',
         '50',
         '10',
-        '5'
-
-
-
+        '5',
+        <IconButton edge="start" color='primary' aria-label="edit" onClick={() => setShowEdit(true)}>
+            <EditIcon />
+        </IconButton>
         ]
     ]);
 // console.log("statesData", get(filterDistrictData, 'length') && filterDistrictData[0].map(item => item.ID));
@@ -233,6 +235,23 @@ export default function Hospital() {
                 />
             </Grid>
         </Grid>
+        {showEdit && (
+             <Dialog
+                isOpen
+                maxWidth="md"
+                fullWidth
+                dialogTitle="Edit Hospital Record"
+                dialogContent={(
+                    <EditHospital
+                        handleClose={closeSubsidyCreate}
+                    />
+                )}
+                hideBtns
+                showClose
+                onClose={closeSubsidyCreate}
+            />
+        )
+        }
     </Container>
     );
 }
