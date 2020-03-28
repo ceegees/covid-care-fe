@@ -41,17 +41,16 @@ const useStyles = makeStyles((theme) =>
     },
   }),
 );
-
+const routes = {
+  '/': () => <Landing />,
+  '/hospitals': () => <Hospital />,
+  '/p/:id': (params) => <PassInfo {...params} />,
+};
 
 export default function App() {
   const classes = useStyles();
-  const routes = {
-    '/': () => <Landing />,
-    '/hospitals': () => <Hospital />,
-    '/p/:id': (params) => <PassInfo {...params} />,
-};
   const routeResult = useRoutes(routes);
-  const page =  routeResult
+  const page = routeResult
   return (
 
 

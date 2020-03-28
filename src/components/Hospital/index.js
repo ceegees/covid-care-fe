@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import {
     FormControl,
@@ -8,26 +8,18 @@ import {
     Grid,
     Select,
     InputLabel,
-    MenuItem
+    MenuItem,
+    Typography,
+    Container
 } from '@material-ui/core'
-
+import { get } from 'lodash';
+import SelectField from '../common/SelectField';
+import produce from "immer"
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import CommonTable from '../common/Table';
 // const useStyles = makeStyles((theme) =>
 //     createStyles({
-//         textInput: {
-//             width: '100%',
-//         },
-//         formRoot: {
-//             flexDirection: 'row'
-//         },
-//         formControlRoot: {
-//             padding: `0px ${theme.spacing(1)}px`
-//         },
-//         saveButton: {
-//             padding: theme.spacing(1),
-//         },
 //         root: {
 //             '& > *': {
 //                 margin: theme.spacing(1),
@@ -36,145 +28,143 @@ import DeleteIcon from '@material-ui/icons/Delete';
 //     }),
 // );
 
-// const wrapProps = {
-//     item: true,
-//     xs: 12,
-//     md: 6,
-//     lg: 6
-// };
-
-
 export default function Hospital() {
-//     const classes = useStyles();
-//     const [showEntry, setShowEntry] = useState(true);
-//     const [inFlight, setInFlight] = useState(false);
-//     const [url, setUrl] = useState("https://localhost:5678/r/SF5eG7J4");
-//     const [formData, setFormData] = useState({
-//         name: '',
-//         phoneNumber: '',
-//         govtIdType: 'aadhar',
-//         govtId: '',
-//         dateFrom: '',
-//         dateTo: '',
-//         reason: '',
-//         status: '',
-//         localBody:'',
-//         district:'',
-//         state:'Kerala',
-//         country:'India',
-//         numberOfPassengers: 0,
-//         routes: [
-//         ]
-//     })
+    // const classes = useStyles();
+    const [disableDistrict, setDisableDistrict] = useState(true);
+    const [filterData, setFilterData] = useState({
+        state: '',
+        district: '',
+    })
 
-//     const handleSubmit = (evt) => {
-//         console.log(formData);
-//         setInFlight(true);
+    const handleSelectChange = (evt) => {
+        const nextState = produce(filterData, draftState => {
+            draftState[evt.target.name] = evt.target.value;
+        });
+        setFilterData(nextState);
+        if(nextState.state) {
+            setDisableDistrict(false);
+        } 
+    }
+    let statesData = [];
+    statesData = [
+        {
+            ID: 1,
+            label: 'Kerala',
+            districts: [
+                {
+                    stateID: 1,
+                    ID: 1,
+                    label: 'Kannur',
+                },
+                {
+                    stateID: 1,
+                    ID: 2,
+                    label: 'Kozhikode',
+                }
+            ]
+            
+        },
+        {
+            ID: 2,
+            label: 'Karnataka',
+            districts: [
+                {
+                    stateID: 2,
+                    ID: 1,
+                    label: 'Bengaluru Rural',
+                },
+                {   
+                    stateID: 2,
+                    ID: 2,
+                    label: 'Mysuru',
+                }
+            ]
+        },
+    ];
+    let filterDistrictData = [];
+    const districtData = statesData.map(item => item.districts);
+    filterDistrictData = districtData.filter((item, idx) => item[idx].stateID === filterData.state);
 
-//         axios.post('/apiv1/pass/travel-request', formData)
-//         .then((resp) => {
-//             resp = resp.data;
-//             setInFlight(false);
-//             if(resp && resp.data) {
-//                 setUrl(resp.data.url);
-//                 setShowEntry(false);
-//             }
-//         }).catch( ex => {
-//             alert(ex.message);
-//         });
 
-//         evt.preventDefault();
-//     }
-
-//     const onRouteChange = (evt, idx) => {
-//         const nextState = produce(formData, draftState => {
-//             draftState.routes[idx][evt.target.name] = evt.target.value
-//         });
-//         setFormData(nextState);
-//     }
-
-//     const removeRoute = (idx) => {
-//         const nextState = produce(formData, draftState => {
-//             draftState.routes.splice(idx, 1);
-//         });
-//         console.log(nextState);
-//         setFormData(nextState);
-//     }
-
-//     const handleAddRoute = () => {
-//         const nextState = produce(formData, draftState => {
-//             draftState.routes.push({
-//                 locationFrom: null,
-//                 locationTo: null
-//             });
-//         });
-//         setFormData(nextState);
-//     }
-
-//     const onChange = (evt) => {
-//         const nextState = produce(formData, draftState => {
-//             draftState[evt.target.name] = evt.target.value;
-//         });
-//         setFormData(nextState);
-//     }
-
-//     const saveQRCode = (evt) => {
-//         const canvas = document.getElementById('generated_qr_code');
-//         var dataURL = canvas.toDataURL('image/png');
-//         evt.target.href = dataURL;
-//     }
-
-//     const reasons = [
-//         'Essential Food Supplies',
-//         'Medical Checkup',
-//         'Transportation & Logistics',
-//         'Chemist',
-//         'Print & Electronic Media',
-//         'Bank & ATM',
-//         'Other'
-//     ];
-
-//     const states = [
-//         "Andhra Pradesh",
-//         "Arunachal Pradesh",
-//         "Assam",
-//         "Bihar",
-//         "Chhattisgarh",
-//         "Goa",
-//         "Gujarat",
-//         "Haryana",
-//         "Himachal Pradesh",
-//         "Jharkhand",
-//         "Karnataka",
-//         "Kerala",
-//         "Madhya Pradesh",
-//         "Maharashtra",
-//         "Manipur",
-//         "Meghalaya",
-//         "Mizoram",
-//         "Nagaland",
-//         "Odisha",
-//         "Punjab",
-//         "Rajasthan",
-//         "Sikkim",
-//         "Tamil Nadu",
-//         "Telangana",
-//         "Tripura",
-//         "Uttar Pradesh",
-//         "Uttarakhand",
-//         "West Bengal",
-//         "Andaman and Nicobar Islands",
-//         "Chandigarh",
-//         "Dadra and Nagar Haveli and Daman and Diu",
-//         "Delhi",
-//         "Jammu and Kashmir",
-//         "Ladakh",
-//         "Lakshadweep",
-//         "Puducherry"
-//     ];
+    const tableHeads = [
+        {
+            title: 'Subsidy Name',
+        },
+        {
+            title: 'Type',
+        },
+        {
+            title: 'Amount',
+        },
+        {
+            title: 'From',
+        },
+        {
+            title: 'To',
+        },
+        {
+            title: 'Status',
+        },
+        {
+            title: 'Created by',
+        }
+    ];
+// console.log("statesData", get(filterDistrictData, 'length') && filterDistrictData[0].map(item => item.ID));
     return (
-    <Paper className="w3-padding-16 w3-white w3-padding">
-        <h2>Hospitals</h2>
-    </Paper>
+    <Container fixed padding={2}>
+        <Grid container className="w3-margin">
+            <Grid item xs={12}>
+                <Typography variant="h4">Hospitals</Typography>
+            </Grid>
+        </Grid>
+        <Grid container className="w3-margin" spacing={4}>
+            <Grid item xs={3}>
+                <SelectField
+                    label="State"
+                    name="state"
+                    value={filterData.state}
+                    onChange={handleSelectChange}
+                    options={
+                        statesData.map(eachOption => (
+                            <MenuItem
+                                key={eachOption.ID}
+                                value={eachOption.ID}
+                            >
+                                {eachOption.label}
+                            </MenuItem> 
+                        ))
+                    }
+                />     
+             </Grid>
+             <Grid item xs={3}>
+                <SelectField
+                    label="District"
+                    name="district"
+                    value={filterData.district}
+                    onChange={handleSelectChange}
+                    disabled={disableDistrict}
+                    options={
+                        get(filterDistrictData, 'length') && filterDistrictData[0].map(eachOption => (
+                            <MenuItem
+                                key={eachOption.ID}
+                                value={eachOption.ID}
+                            >
+                                {eachOption.label}
+                            </MenuItem> 
+                        ))
+                    }
+                />     
+            </Grid>
+        </Grid>
+        <Grid container className="w3-margin">
+            <CommonTable
+                headRowCls=""
+                bodyRowCls="w3-padding"
+                labels={tableHeads}
+                // tableData={tableData}
+                noContentText=""
+            />
+        </Grid>
+    </Container>
     );
 }
