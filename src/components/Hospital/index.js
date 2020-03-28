@@ -156,14 +156,16 @@ export default function Hospital() {
                 />     
             </Grid>
         </Grid>
-        <Grid container className="w3-margin">
-            <CommonTable
-                headRowCls=""
-                bodyRowCls="w3-padding"
-                labels={tableHeads}
-                // tableData={tableData}
-                noContentText=""
-            />
+        <Grid container className="w3-padding">
+            <Grid item xs={12}>
+                <CommonTable
+                    headRowCls=""
+                    bodyRowCls="w3-padding"
+                    labels={tableHeads}
+                    // tableData={tableData}
+                    noContentText=""
+                />
+            </Grid>
         </Grid>
     </Container>
     );
