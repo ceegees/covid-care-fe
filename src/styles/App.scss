@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+} 
+
+.sf-root {
+  .sf-checkbox {
+    padding:0px 16px;
+    .MuiCheckbox-root {
+        width:48px;
+        height:48px;
+    }
+  }
+}
