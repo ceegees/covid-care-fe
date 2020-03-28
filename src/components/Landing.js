@@ -65,7 +65,7 @@ export default function Landing(props) {
                 <Button className="w3-padding-64 w3-black w3-block" onClick={() => alert('coming soon!')} style={{ height: "100%" }}>Medical Stores Near You!</Button>
             </Grid>
             <Grid item xs={12} sm={4}>
-                <Button className="w3-padding-64 w3-green w3-block" onClick={() => navigate('/hospitals')} style={{ height: "100%" }}>Hospitals</Button>
+                <Button className="w3-padding-64 w3-green w3-block" onClick={() => navigate('/hospitals', true)} style={{ height: "100%" }}>Hospitals</Button>
             </Grid>
         </Grid>
         {modalCls === 'w3-show' && <div className={clsx("w3-modal", modalCls)}  >

@@ -174,7 +174,7 @@ export default function Hospital() {
 //     ];
     return (
     <Paper className="w3-padding-16 w3-white w3-padding">
-        <h4>Request for Travel Pass</h4>
+        <h2>Hospitals</h2>
     </Paper>
     );
 }
