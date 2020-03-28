@@ -13,11 +13,12 @@ import {
   Paper
 } from '@material-ui/core';
  
-import {useRoutes} from 'hookrouter';
+import { useRoutes } from 'hookrouter';
 import MenuIcon from '@material-ui/icons/Menu';
 import './styles/w3.css';
 import './styles/App.scss';
 import Landing from './components/Landing';
+import Hospital from './components/Hospital';
 import PassInfo from './components/TravelPass/Info';
 
 
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) =>
 
 const routes = {
     '/': () => <Landing />,
+    '/hospitals': () => <Hospital />,
     '/p/:id': (params) => <PassInfo {...params} />,
 };
 export default function App() {
@@ -50,7 +52,10 @@ export default function App() {
   
   const routeResult = useRoutes(routes);
   const page =  routeResult || <Landing />
-  return (<React.Fragment>
+  return (
+
+
+  <React.Fragment>
     <AppBar position="static">
       <Toolbar>
         {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
