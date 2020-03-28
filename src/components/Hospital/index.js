@@ -18,22 +18,18 @@ import produce from "immer"
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CommonTable from '../common/Table';
-// const useStyles = makeStyles((theme) =>
-//     createStyles({
-//         root: {
-//             '& > *': {
-//                 margin: theme.spacing(1),
-//             },
-//         },
-//     }),
-// );
+import Loader from '../common/Loader';
+import Pagination from '../common/Pagination';
 
 export default function Hospital() {
-    // const classes = useStyles();
     const [disableDistrict, setDisableDistrict] = useState(true);
     const [filterData, setFilterData] = useState({
         state: '',
         district: '',
+        pagination: {
+            page: 1,
+            perPage: 10
+        },
     })
 
     const handleSelectChange = (evt) => {
@@ -45,6 +41,15 @@ export default function Hospital() {
             setDisableDistrict(false);
         } 
     }
+
+    const handlePagination = (pageNo, perPage) => {
+        console.log(filterData.pagination.page);
+        filterData.pagination.page = parseInt(pageNo, 10);
+        filterData.pagination.perPage = parseInt(perPage, 10);
+        setFilterData(filterData.pagination);
+    }
+
+
     let statesData = [];
     statesData = [
         {
@@ -88,27 +93,80 @@ export default function Hospital() {
 
     const tableHeads = [
         {
-            title: 'Subsidy Name',
+            title: 'Health Facility Name',
         },
         {
-            title: 'Type',
+            title: 'Address',
         },
         {
-            title: 'Amount',
+            title: 'Landline Number',
         },
         {
-            title: 'From',
+            title: 'Latitude',
         },
         {
-            title: 'To',
+            title: 'Longitude',
         },
         {
-            title: 'Status',
+            title: 'Facility Type',
         },
         {
-            title: 'Created by',
-        }
+            title: 'State',
+        },
+        {
+            title: 'District'
+        },
+        {
+            title: 'Taluk Name'
+        },
+        {
+            title: 'Normal Beds'
+        },
+        {
+            title: 'ICU Beds'
+        },
+        {
+            title: 'Ventilators'
+        },
+        {
+            title: 'Rooms'
+        },
+        {
+            title: 'General Doctors'
+        },
+        {
+            title: 'Pediatricians'
+        },
+        {
+            title: 'Surgeons'
+        },
     ];
+
+    let tableData = <Loader />;
+
+    tableData = ([
+        [
+        'CMH Hospital',
+        <span>1, 1, Chinmaya Mission Hospital Rd<br /> Opp. Krishna Temple<br />  Defence Colony<br />  560038</span>,
+        '080 2528 0461',
+        '12.9780° N',
+        '77.6462° E',
+        'Hospital',
+        'Karnataka',
+        'Bengaluru Rural',
+        'Indiranagar',
+        '200',
+        '10',
+        '5',
+        '150',
+        '50',
+        '10',
+        '5'
+
+
+
+        ]
+    ]);
 // console.log("statesData", get(filterDistrictData, 'length') && filterDistrictData[0].map(item => item.ID));
     return (
     <Container fixed padding={2}>
@@ -162,8 +220,16 @@ export default function Hospital() {
                     headRowCls=""
                     bodyRowCls="w3-padding"
                     labels={tableHeads}
-                    // tableData={tableData}
-                    noContentText=""
+                    tableData={tableData}
+                    noContentText="No Hospital Data Found"
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <Pagination
+                    data={{ totalCount: 25 }}
+                    onChange={handlePagination}
+                    defaultPerPage={10}
+                    currentPage={1}
                 />
             </Grid>
         </Grid>

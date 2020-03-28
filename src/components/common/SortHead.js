@@ -11,9 +11,8 @@ const SortHead = ({
     active,
     handleSort,
     // cdnUrl,
-    key
 }) => (
-    <div key={key}>
+    <>
         {sortField ? (
             <TableSortLabel>
                 <Grid container direction="column" style={{ width: 'auto', padding: '1px' }}>
@@ -39,7 +38,7 @@ const SortHead = ({
                             aria-label="button"
                             role="presentation"
                             // src={`${cdnUrl}/common/${active === 'desc' ? 'down.svg' : 'arrow_down.png'} `}
-                            className="s7t-sort-icon"
+                            className="sf-sort-icon"
                             onClick={() => handleSort(`-${sortField}`, 'desc')}
                         />
                     </Tooltip>
@@ -47,7 +46,7 @@ const SortHead = ({
                 <span style={{ width: 'max-content' }}>{label}</span>
             </TableSortLabel>
         ) : label}
-    </div>
+    </>
 );
 
 

@@ -23,6 +23,8 @@ import Loader from './Loader';
 const styles = {
     head: {
         fontSize: '16px',
+        color: 'white',
+        // whiteSpace: 'nowrap'
     },
     body: {
         fontSize: '14px'
@@ -33,9 +35,9 @@ class CommonTable extends Component {
     constructor(args) {
         super(args);
 
-        this.state = {
-            activeRow: null
-        };
+        // this.state = {
+        //     activeRow: null
+        // };
 
         // this.mouseEntered = this.mouseEntered.bind(this);
         this.rowClicked = this.rowClicked.bind(this);
@@ -84,13 +86,14 @@ class CommonTable extends Component {
             noContentText,
             handleSort,
             classes,
-            headerPadding
+            headerPadding,
+            theme
         } = this.props;
-        const {
-            activeRow
-        } = this.state;
+        // const {
+        //     activeRow
+        // } = this.state;
         let tableContent = (
-            <TableRow key="loader" align="center" className="w3-center s7t-waitlistCard-tableRow">
+            <TableRow key="loader" align="center" className="w3-center">
                 <TableCell align="center" colSpan={labels.length}>
                     <Loader />
                 </TableCell>
@@ -140,9 +143,9 @@ class CommonTable extends Component {
                                         classes={{
                                             body: classes.body
                                         }}
-                                        className={`${bodyRowCellCls} s7t-font-14 s7t-text-no-wrap`}
+                                        className={`${bodyRowCellCls} sf-text-no-wrap`}
                                         key={`eachCell-${rowIdx}-${cellIdx}`}
-                                        style={cellStyle}
+                                        // style={cellStyle}
                                         {...bodyCellProps}
                                     >
                                         {eachCell}
@@ -154,15 +157,15 @@ class CommonTable extends Component {
                 );
             } else if (tableData.length === 0) {
                 tableContent = (
-                    <TableRow key="no-content" align="center" className="w3-center s7t-waitlistCard-tableRow">
+                    <TableRow key="no-content" align="center" className="w3-center">
                         <TableCell align="center" colSpan={labels.length}>
-                            <Typography variant="h5" className="w3-center s7t-data-font">{noContentText}</Typography>
+                            <Typography variant="h5" className="w3-center sf-data-font">{noContentText}</Typography>
                         </TableCell>
                     </TableRow>
                 );
             } else {
                 tableContent = (
-                    <TableRow key="no-content" align="center" className="w3-center s7t-waitlistCard-tableRow">
+                    <TableRow key="no-content" align="center" className="w3-center">
                         <TableCell align="center" colSpan={labels.length}>
                             <Loader />
                         </TableCell>
@@ -172,11 +175,11 @@ class CommonTable extends Component {
         }
 
         return (
-            <Paper elevation={0} className="s7t-overflow s7t-table-overflow">
-                <Table className={`s7t-common-table ${tableCls}`}>
+            <Paper elevation={0} className="sf-table-overflow">
+                <Table className={`sf-common-table ${tableCls}`}>
                     <TableHead
                         style={{
-                            background: '#87CEFA',
+                            background: theme.palette.primary.main,
                         }}
                     >
                         <TableRow key="common-table-head" className={headRowCls}>
