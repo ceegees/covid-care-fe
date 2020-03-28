@@ -43,7 +43,7 @@ export default function Info(props) {
                 </tr>
                 <tr>
                     <td>Status</td>
-                    <td>{ passData.status == 'APPROVED' ?  <span className="w3-green w3-label w3-round">Approved</span>  : 
+                    <td>{ passData.status == 'APPROVED' ?  <span className="w3-green w3-padding-small w3-label w3-round">Approved</span>  : 
                     <span className="w3-red w3-padding-small w3-label w3-round">{passData.status}</span>
                     }</td>
                 </tr>
