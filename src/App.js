@@ -19,6 +19,7 @@ import './styles/w3.css';
 import './styles/App.scss';
 import Landing from './components/Landing';
 import Hospital from './components/Hospital';
+import TravelPass from './components/TravelPass';
 import PassInfo from './components/TravelPass/Info';
 
 
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) =>
 const routes = {
   '/': () => <Landing />,
   '/hospitals': () => <Hospital />,
+  '/travelpass': () => <TravelPass />,
   '/p/:id': (params) => <PassInfo {...params} />,
 };
 
@@ -70,7 +72,7 @@ export default function App() {
     {page}
 
      
-    <div className="w3-padding  w3-center w3-border-top" style={{ position: 'fixed', width:'100%','bottom': '0px' }}>
+    <div className="w3-padding  w3-center w3-border-top" style={{ marginTop:'100px',  width:'100%','bottom': '0px' }}>
       <span>If you want to deploy this solution for any other regions please get in touch with covidcare@ceegees.in we are happy to help
       </span>
     </div>

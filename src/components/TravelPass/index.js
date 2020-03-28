@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import {
     FormControl,
@@ -70,7 +70,12 @@ export default function TravelPass() {
         routes: [
         ]
     })
-
+    useEffect(()=>{
+        const c = document.getElementById("myCanvas");
+        const ctx = c.getContext("2d");
+        const img = document.getElementById("generated_qr_code");
+        ctx.drawImage(img, 10, 10);
+    })
     const handleSubmit = (evt) => {
         console.log(formData);
         setInFlight(true);
@@ -124,7 +129,7 @@ export default function TravelPass() {
 
     const saveQRCode = (evt) => {
         const canvas = document.getElementById('generated_qr_code');
-        var dataURL = canvas.toDataURL('image/png');
+        const dataURL = canvas.toDataURL('image/png');
         evt.target.href = dataURL;
     }
 
@@ -353,7 +358,8 @@ export default function TravelPass() {
 
                 </Grid>
             </form>}
-            {!showEntry && <Grid container spacing={2} justify="center"
+            {/* {!showEntry &&  */}
+            <Grid container spacing={2} justify="center"
                 className={clsx(classes.formRoot)}>
                 <Grid item className="w3-center">
                     <div className="w3-section w3-left-align">
@@ -362,15 +368,18 @@ export default function TravelPass() {
                     <br />You can show the following QR Code to authorites after you getting the confirmation sms.
                     </h4>
                     </div>
-                    <QRCode id="generated_qr_code" size={320}
-                        style={{ maxWidth: '320px' }}
-                        value={url} />
+                    <canvas id="myCanvas" width="340" height="340" style={{border:'1px solid #d3d3d3'}}>
+                        <QRCode id="generated_qr_code" size={320}
+                                style={{ maxWidth: '320px' }}
+                                value={url} />
+                    </canvas>
                     <div className="w3-section">
                         <a className="w3-button w3-deep-orange w3-padding-16 w3-round" href="#"
                             download="route_approval.png" onClick={saveQRCode}>Save QR Code</a>
                     </div>
                 </Grid>
-            </Grid>}
+            </Grid> 
+            {/* } */}
         </Grid>
     </Paper>
 }
