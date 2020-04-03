@@ -1,25 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography'; 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import {
   AppBar,
-  Toolbar,
-  Button,
-  Grid,
-  IconButton,
-  Modal,
-  Paper
+  Toolbar, 
 } from '@material-ui/core';
- 
-import {useRoutes} from 'hookrouter';
-import MenuIcon from '@material-ui/icons/Menu';
+import { 
+  Switch,
+  Route, 
+} from "react-router-dom";
+  
 import './styles/w3.css';
 import './styles/App.scss';
 import Landing from './components/Landing';
 import PassInfo from './components/TravelPass/Info';
-
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -41,15 +36,9 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const routes = {
-    '/': () => <Landing />,
-    '/p/:id': (params) => <PassInfo {...params} />,
-};
 export default function App() {
-  const classes = useStyles();
-  
-  const routeResult = useRoutes(routes);
-  const page =  routeResult || <Landing />
+  const classes = useStyles(); 
+   
   return (<React.Fragment>
     <AppBar position="static">
       <Toolbar>
@@ -57,18 +46,24 @@ export default function App() {
           <MenuIcon />
         </IconButton> */}
          <a href="/" style={{textDecoration:'none'}}><Typography variant="h6" className={classes.title}>
-         Covid Care - Kerala
+         CoronaSafe Network Curfew Pass
           </Typography></a> 
         {/* <Button color="inherit">Login</Button> */}
       </Toolbar>
     </AppBar>
     <CssBaseline /> 
-    {page}
-
-     
+    <Switch>
+        <Route exact path="/p/:id">
+          <PassInfo />
+        </Route>
+        <Route path="/"> 
+        <Landing/>
+        </Route>
+      </Switch>
     <div className="w3-padding  w3-center w3-border-top" style={{ marginTop:'100px',  width:'100%','bottom': '0px' }}>
-      <span>If you want to deploy this solution for any other regions please get in touch with covidcare@ceegees.in we are happy to help
-      </span>
+      <span>CoronaSafe Network is an open-source public utility designed by a multi-disciplinary team of innovators and volunteers who are working on a model to support Government efforts with full understanding and support of Government of Kerala. 
+        <a href="https://github.com/ceegees/covid-care-fe">Github</a>
+        </span> 
     </div>
   </React.Fragment>
   );
