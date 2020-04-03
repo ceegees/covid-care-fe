@@ -8,17 +8,22 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@ungap/url-search-params": "^0.1.4",
     "axios": "^0.19.2",
     "clsx": "^1.1.0",
+    "core-js": "^3.6.4",
     "env-cmd": "^10.1.0",
-    "hookrouter": "^1.2.3",
     "http-proxy-middleware": "^1.0.3",
     "immer": "^6.0.2",
+    "lodash.get": "^4.4.2",
+    "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "regenerator-runtime": "^0.13.5"
   },
   "prxoxy": {
     "target": "https://api.covid19india.org/",
@@ -30,7 +35,7 @@
   },
   "scripts": {
     "start": "PORT=5678 react-scripts start",
-    "build": "REACT_APP_WEBSITE_NAME=CovidCare react-scripts build",
+    "build": "react-scripts build",
     "build-prod": "env-cmd -f .env npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -45,6 +50,7 @@
       "not op_mini all"
     ],
     "development": [
+      "ie 11",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"

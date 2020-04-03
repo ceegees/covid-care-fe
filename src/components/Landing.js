@@ -1,20 +1,10 @@
-import React, { useState } from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react'; 
 import Container from '@material-ui/core/Container';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import {
-    AppBar,
-    Toolbar,
-    Button,
-    Grid,
-    IconButton,
-    Modal,
-    Paper
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import TravelPass from './TravelPass';
-import clsx from 'clsx';
+import { 
+    Grid
+} from '@material-ui/core'; 
+import TravelPass from './TravelPass'; 
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -38,13 +28,13 @@ const useStyles = makeStyles((theme) =>
 
 export default function Landing(props) {
     const classes = useStyles();
-    const [modalCls, setModalCls] = useState();
-    const handleClose = () => {
-        setModalCls('w3-hide')
-    }
-    const handleOpen = () => {
-        setModalCls('w3-show');
-    }
+    // const [modalCls, setModalCls] = useState();
+    // const handleClose = () => {
+    //     setModalCls('w3-hide')
+    // }
+    // const handleOpen = () => {
+    //     setModalCls('w3-show');
+    // }
 
     return <Container className={classes.container} fixed padding={2}>
         <Grid container justify="center" className="w3-padding" spacing={2}>

@@ -1,38 +1,44 @@
-import React,{useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+import moment from 'moment';
+import PassInfo from './PassInfo';
 
+import {
+    useParams
+} from "react-router-dom"
 
 export default function Info(props) {
+    const [passData, setPassData] = useState(null);
+    const { id } = useParams(); 
+    useEffect(() => {
+        fetch(`/apiv1/pass/info/${id}`)
+            .then(resp => resp.json())
+            .then(resp => {
+                setPassData(resp.data);
+            })
+            .catch(ex => {
+                setPassData({
+                    error: 'Error In getting pass data'
+                })
+            })
+    }, [1])
 
-    const [passData,setPassData] = useState(null);
-
-    console.log('props : ',props);
-    useEffect(()=>{
-       fetch(`/apiv1/pass/info/${props.id}`)
-       .then(resp => resp.json())
-       .then(resp => setPassData(resp.data))
-       .catch(ex => {
-        //    alert(ex.messag);
-           setPassData({
-               error : 'Error In getting pass data'
-           })
-       })
-    },[1])
+   
 
     return <div className="w3-center">
         <h4>Travel Pass Information</h4>
         {!passData && <div className="w3-center">
-            <CircularProgress variant="determinate"   />
-            </div>
-        }
-        {passData && passData.error && <div className="w3-padding "> 
-        <div className="w3-section w3-padding w3-red w3-round">
-        <h4>{passData.error}</h4>
+            <CircularProgress variant="determinate" />
         </div>
+        }
+        {passData && passData.error && <div className="w3-padding ">
+            <div className="w3-section w3-padding w3-red w3-round">
+                <h4>{passData.error}</h4>
+            </div>
         </div>}
-        {passData && !passData.error && <div className="w3-padding-small"> 
-            <table className="w3-table w3-table-all" style={{maxWidth:'500px',margin:'auto auto'}}>
+        {passData && !passData.error && <div className="w3-padding-small">
+            <table className="w3-table w3-table-all" style={{ maxWidth: '500px', margin: 'auto auto' }}>
                 <tr>
                     <td>Name</td>
                     <td>{passData.personName}</td>
@@ -43,8 +49,8 @@ export default function Info(props) {
                 </tr>
                 <tr>
                     <td>Status</td>
-                    <td>{ passData.status == 'APPROVED' ?  <span className="w3-green w3-padding-small w3-label w3-round">Approved</span>  : 
-                    <span className="w3-red w3-padding-small w3-label w3-round">{passData.status}</span>
+                    <td>{passData.status == 'APPROVED' ? <span className="w3-green w3-padding-small w3-label w3-round">Approved</span> :
+                        <span className="w3-red w3-padding-small w3-label w3-round">{passData.status}</span>
                     }</td>
                 </tr>
 
@@ -66,9 +72,9 @@ export default function Info(props) {
                     </td>
                     <td>
                         <ul className="w3-ul ">
-                       { passData.json.routes.map(route => {
-                           return <li>{route.locationFrom} to {route.locationTo}</li>
-                       })}</ul>
+                            {passData.json.routes.map(route => {
+                                return <li>{route.locationFrom} to {route.locationTo}</li>
+                            })}</ul>
                     </td>
                 </tr>
                 <tr>
@@ -84,7 +90,17 @@ export default function Info(props) {
                     <td>{passData.state}</td>
                 </tr>
 
+                {passData.actor && <React.Fragment>
+                    <tr>
+                        <td>By</td>
+                        <td>{passData.actor.name} <i className="w3-text-grey w3-right">{moment(passData.operatorUpdatedAt).fromNow()}</i></td>
+                    </tr>
+                </React.Fragment>}
             </table>
         </div>}
+        { passData && <div style={{padding:'64px'}}>
+            <PassInfo classes={{}} data={passData}  />
+            </div>
+        }
     </div>
 }
