@@ -57,6 +57,7 @@ export default function TravelPass() {
         'Essential Food Supplies',
         'Medical Checkup',
         'Transportation & Logistics',
+        'Volunteer',
         'Chemist',
         'Print & Electronic Media',
         'Bank & ATM',
@@ -117,6 +118,7 @@ export default function TravelPass() {
         status: '',
         timeFrom:'',
         timeTo:'',
+        information:'',
         localBody: null,
         token: null,
         district: null,
@@ -186,8 +188,8 @@ export default function TravelPass() {
     const onAddRoute = () => {
         const nextState = produce(formData, draftState => {
             draftState.routes.push({
-                locationFrom: null,
-                locationTo: null
+                locationFrom: '',
+                locationTo: ''
             });
         });
         setFormData(nextState);
@@ -208,7 +210,7 @@ export default function TravelPass() {
     }
 
     useEffect(() => {
-        const st = states.find(item => item.name == formData.state);
+        const st = states.find(item => item.name === formData.state);
         if (st) {
             const nextState = produce(formData, draftState => {
                 draftState.district = null;
@@ -249,8 +251,7 @@ export default function TravelPass() {
                             value={formData.phoneNumber}
                             name="phoneNumber"
                             required
-                            onChange={onChange}
-                            placeHolder="10 Digit phone number"
+                            onChange={onChange} 
                             className={clsx(classes.root, classes.textInput)}
                         />
                     </Grid>
@@ -330,7 +331,7 @@ export default function TravelPass() {
                                 id={`input-stateLabel`}
                                 onChange={onChange}
                             >
-                                {states.map(state => <MenuItem className={classes.captalize} value={state.name}>{state.name.toLowerCase()}</MenuItem>)}
+                                {states.map((state,idx) => <MenuItem key={`option_${idx}`} className={classes.captalize} value={state.name}>{state.name.toLowerCase()}</MenuItem>)}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -349,12 +350,12 @@ export default function TravelPass() {
                             onChange={(e, val) => onAcChange('localBody', val)}
                             name="village"
                             value={formData.localBody || {}}
-                            url="/apiv1/geo/locations" label="Village / Muncipality/ Police Station"
+                            url="/apiv1/geo/locations" label="Village / Muncipality / Police Station"
                             config={lbLoadConfig} />
                     </Grid>
                     <Grid item {...wrapProps}   >
                         <FormControl variant="filled" style={{ width: '100%' }}>
-                            <InputLabel id={`reasonLabel`}>Reason</InputLabel>
+                            <InputLabel id={`reasonLabel`}>Rquest Category</InputLabel>
                             <Select
                                 value={formData.reason}
                                 labelId={`reasonLabel`}
@@ -362,23 +363,28 @@ export default function TravelPass() {
                                 id={`input-reasonLabel`}
                                 onChange={onChange}
                             >
-                                {reasons.map(reason => <MenuItem value={reason}>{reason}</MenuItem>)}
+                                {reasons.map((reason,idx) => <MenuItem key={`reason_${idx}`} value={reason}>{reason}</MenuItem>)}
                             </Select>
                         </FormControl>
-                        {/* <TextField variant="filled" label="Reason"
-                            name="reason"
-                            required
+                        
+                    </Grid>
+
+                    <Grid item sm={12} xs={12}   >
+                         <TextField variant="filled" label="Declaration"
+                            name="information"
+                            value={formData.information} 
                             multiline
                             onChange={onChange}
+                            helperText="if you can mention why this request is important"
                             className={clsx(classes.root, classes.textInput)}
-                        /> */}
+                        /> 
                     </Grid>
                     <Grid item container className="w3-padding w3-border-bottom">
-                        <Grid xs={12} md={12}>
+                        <Grid item xs={12} md={12}>
                             <h6>Routes</h6>
                         </Grid>
                         {formData.routes.map((item, idx) => {
-                            return <React.Fragment>
+                            return <React.Fragment key={`route_item_${idx}`}>
                                 <Grid item xs={12} sm={5} >
                                     <TextField variant="filled" label="Enter From"
                                         name="locationFrom"
@@ -407,8 +413,8 @@ export default function TravelPass() {
                         {formData.routes.length < 3 &&
                             <Grid item xs={12} md={12} className="w3-padding w3-section"  >
                                 <Button classes={{ root: 'w3-padding' }} onClick={onAddRoute}
-                                    className=" w3-border w3-block" secondary>
-                                    {formData.routes.length == 0 && <span>+ Add A Route</span>}
+                                    className=" w3-border w3-block" color="default">
+                                    {formData.routes.length === 0 && <span>+ Add A Route</span>}
                                     {formData.routes.length > 0 && <span>Add a new route in addition to the above route.</span>}
                                 </Button>
                             </Grid>
@@ -425,11 +431,11 @@ export default function TravelPass() {
                                 className={clsx(classes.root, classes.textInput)}
                             />
                         </Grid>}
-                        <Grid item className="w3-padding-16" justify="flex-end" >
-                            <Button disabled={formData.routes.length == 0 || inFlight}
+                        <Grid item className="w3-padding-16"  >
+                            <Button disabled={formData.routes.length === 0 || inFlight}
                                 type="submit"
                                 variant="contained" size="small" color="primary"
-                                className={classes.saveButton} primary>
+                                className={classes.saveButton} >
                                 {formData.token ? 'Request Travel Pass' : 'Get Verification OTP '}</Button>
                         </Grid>
                     </Grid>

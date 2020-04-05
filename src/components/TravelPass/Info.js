@@ -9,32 +9,32 @@ import {
 } from "react-router-dom"
 
 export default function Info(props) {
-    const [passData, setPassData] = useState(null);
+    const [passData, setPassData] = useState(undefined);
+    const [errorMsg,setErrorMsg] = useState('');
     const { id } = useParams(); 
     useEffect(() => {
         fetch(`/apiv1/pass/info/${id}`)
             .then(resp => resp.json())
             .then(resp => {
+                if (!resp.meta.success) {
+                    setErrorMsg(resp.meta.message);
+                }
                 setPassData(resp.data);
+            }).catch(ex => {
+                setErrorMsg('Error In getting pass data '+ex.message);
             })
-            .catch(ex => {
-                setPassData({
-                    error: 'Error In getting pass data'
-                })
-            })
-    }, [1])
+    }, [id])
 
-   
 
     return <div className="w3-center">
         <h4>Travel Pass Information</h4>
-        {!passData && <div className="w3-center">
+        {passData === undefined && <div className="w3-center">
             <CircularProgress variant="determinate" />
         </div>
         }
-        {passData && passData.error && <div className="w3-padding ">
+        {errorMsg && <div className="w3-padding ">
             <div className="w3-section w3-padding w3-red w3-round">
-                <h4>{passData.error}</h4>
+                <h4>{errorMsg}</h4>
             </div>
         </div>}
         {passData && !passData.error && <div className="w3-padding-small">

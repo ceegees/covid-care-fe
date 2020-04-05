@@ -10,8 +10,8 @@ export default function PassInfo({
     classes,
     data
 }) {
-    const { refId, url } =  data;
-    const formData =  data.json; 
+    const { refId, url } = data;
+    const formData = data.json;
     const [bgImage, setBgImage] = useState(null);
     const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
         const words = text.split(' ');
@@ -33,12 +33,15 @@ export default function PassInfo({
     }
 
     useEffect(() => {
+        if (data.status !== 'APPROVED') {
+            return;
+        }
         const img = new Image();
         img.onload = function () {
             setBgImage(img);
         };
         img.src = "/bgpass.jpg?r=1"
-    }, [1])
+    }, [data])
 
     const saveQRCode = (evt) => {
         // setInFlight(true) 
@@ -82,6 +85,18 @@ export default function PassInfo({
     }
     return <Grid container spacing={2} justify="center" className={clsx(classes.formRoot)}>
         <Grid item className="w3-center">
+            {data.status === 'PENDING' && <div className="w3-section w3-left-align w3-round w3-deep-orange w3-padding">
+                <h4>
+                    Your travel pass request is pending approval . you will recieve an sms with the link to download the pass once the request is approved.
+            </h4>
+            </div>}
+
+            <div className="w3-section">
+                {bgImage && <a className="w3-button w3-deep-orange w3-padding-16 w3-round"
+                    href="#" download={`route_approval_${refId}.jpg`}
+                    onClick={saveQRCode}>Download Travel Pass</a>
+                }
+            </div>
             <div className="w3-left-align">
                 <ol>
                     <li> ഇതിൽ നൽകിയിരിക്കുന്ന ആവശ്യങ്ങൾക്കും സേവനങ്ങൾക്കും സ്ഥാലങ്ങൾക്കും അല്ലാതെ മറ്റൊരു കാര്യത്തിനും ഈ പാസ് ഉപയോഗിക്കാൻ പാടില്ല
@@ -98,22 +113,11 @@ export default function PassInfo({
                 </li>
                 </ol>
             </div>
-            {data.status == 'PENDING' && <div className="w3-section w3-left-align">
-                <h6>
-                    Your route requests are pending approval.
-                    You will get a confirmation SMS in your registerd mobile number after approval.
-                    You can show the following QR Code to authorites after you getting the confirmation sms.
-            </h6>
-            </div>}
-            <div className="w3-section">
-                { bgImage && <a className="w3-button w3-deep-orange w3-padding-16 w3-round"
-                    href="#" download={`route_approval_${refId}.jpg`}
-                    onClick={saveQRCode}>Save QR Code</a>
-                }
-            </div>
-            <div>
+
+
+            {bgImage && <div>
                 <QRCode id="generated_qr_code" size={320} style={{ maxWidth: '320px' }} value={url} />
-            </div>
+            </div>}
         </Grid>
     </Grid>
 }
