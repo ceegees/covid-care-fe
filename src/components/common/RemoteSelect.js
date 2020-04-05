@@ -11,7 +11,7 @@ export default function RemoteSelect({ url, config, label, onChange, name , valu
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         setLoading(true);
         axios.get(url, config).then(res => {
             setOptions(res.data.data);
