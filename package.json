@@ -9,7 +9,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@ungap/url-search-params": "^0.1.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "clsx": "^1.1.0",
     "core-js": "^3.6.4",
     "env-cmd": "^10.1.0",
