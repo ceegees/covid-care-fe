@@ -14,7 +14,7 @@
     "core-js": "^3.6.4",
     "env-cmd": "^10.1.0",
     "http-proxy-middleware": "^1.0.3",
-    "immer": "^6.0.2",
+    "immer": "^9.0.6",
     "lodash.get": "^4.4.2",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
